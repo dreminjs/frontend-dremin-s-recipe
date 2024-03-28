@@ -11,11 +11,9 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, InputProps } from "@mui/base/Input";
 import * as yup from "yup";
 import Image from "next/image";
-import {
-  RecipeCharacteristicsModal,
-  RecipeComponentsModal,
-  clearRecipeComponents,
-} from "@/widgets/Recipe";
+import { clearRecipeComponents } from "@/widgets/Recipe";
+import { RecipeCharacteristicsModal } from "@/widgets/Characteristics";
+import { RecipeComponentsModal } from "@/widgets/RecipeComponents";
 import {
   addTypeToRecipe,
   addHolidayToRecipe,

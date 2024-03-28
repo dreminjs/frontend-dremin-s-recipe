@@ -19,7 +19,7 @@ export function InputFileUpload({
   register,
   onChangePhoto,
 }: {
-  register: any;
+  register?: any;
   onChangePhoto: (e: any) => void;
 }) {
   return (

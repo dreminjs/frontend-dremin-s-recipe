@@ -5,7 +5,7 @@ import TabList from "@mui/lab/TabList";
 
 import { useState } from "react";
 import {
-  CharacteristicsItem,
+  CharacteristicsFilterItem,
   CharacteristicsList,
 } from "@/entities/characteristics";
 import {
@@ -18,6 +18,7 @@ import {
   addTypeForFilter,
 } from "@/shared";
 import { TabPanel } from "@mui/lab";
+import { useDebounce } from "@uidotdev/usehooks";
 
 export const CharacteristicsNestedTabs = ({
   onAddHoliday,
@@ -34,6 +35,15 @@ export const CharacteristicsNestedTabs = ({
   const [holidayInputValue, setHolidayInputValue] = useState("");
   const [nationalCuisineInputValue, setNationalCuisineInputValue] =
     useState("");
+
+  const typeInputValueDebounced = useDebounce(typeInputValue, 300);
+
+  const holidayInputValueDebounced = useDebounce(holidayInputValue, 300);
+
+  const nationalCuisineInputValueDebounced = useDebounce(
+    nationalCuisineInputValue,
+    300
+  );
 
   const [typePage, setTypePage] = useState(1);
 
@@ -56,21 +66,22 @@ export const CharacteristicsNestedTabs = ({
     setInputValue(e.target.value);
   };
 
-  const dispatch = useAppDispatch();
-
   const {
     data: types,
     isSuccess: typesIsSuccess,
     isLoading: typesisLoading,
     isError: typesIsError,
-  } = useGetTypesQuery({ page: typePage, search: typeInputValue });
+  } = useGetTypesQuery({ page: typePage, search: typeInputValueDebounced });
 
   const {
     data: holidays,
     isSuccess: holidaysIsSuccess,
     isLoading: holidaysIsLoading,
     isError: holidaysIsError,
-  } = useGetHolidaysQuery({ page: holidayPage, search: holidayInputValue });
+  } = useGetHolidaysQuery({
+    page: holidayPage,
+    search: holidayInputValueDebounced,
+  });
 
   const {
     data: nationalCuisines,
@@ -79,7 +90,7 @@ export const CharacteristicsNestedTabs = ({
     isError: nationalCuisinesIsError,
   } = useGetNationalCuisinesQuery({
     page: nationalCuisinePage,
-    search: nationalCuisineInputValue,
+    search: nationalCuisineInputValueDebounced,
   });
 
   return (
@@ -93,7 +104,12 @@ export const CharacteristicsNestedTabs = ({
             borderColor: "divider",
           }}
         >
-          <TabList onChange={handleChangeTab} aria-label="lab API tabs example">
+          <TabList
+            variant="scrollable"
+            scrollButtons="auto"
+            onChange={handleChangeTab}
+            aria-label="lab API tabs example"
+          >
             <Tab label="Типы" value="1" />
             <Tab label="Национальные кухни" value="2" />
             <Tab label="Праздники" value="3" />
@@ -110,7 +126,7 @@ export const CharacteristicsNestedTabs = ({
           >
             {types?.characteristics.length === 0 && <li>пусто!</li>}
             {types?.characteristics.map((el: any) => (
-              <CharacteristicsItem
+              <CharacteristicsFilterItem
                 type="USER_VERSION"
                 key={el.id}
                 name={el.name}
@@ -133,7 +149,7 @@ export const CharacteristicsNestedTabs = ({
           >
             {nationalCuisines?.characteristics.length === 0 && <li>пусто!</li>}
             {nationalCuisines?.characteristics.map((el: any) => (
-              <CharacteristicsItem
+              <CharacteristicsFilterItem
                 type="USER_VERSION"
                 key={el.id}
                 name={el.name}
@@ -154,7 +170,7 @@ export const CharacteristicsNestedTabs = ({
           >
             {holidays?.characteristics.length === 0 && <li>пусто!</li>}
             {holidays?.characteristics.map((el: any) => (
-              <CharacteristicsItem
+              <CharacteristicsFilterItem
                 type="USER_VERSION"
                 key={el.id}
                 name={el.name}

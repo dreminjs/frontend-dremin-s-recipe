@@ -1,7 +1,7 @@
-import { SelectButton } from "@/shared";
 import Pagination from "@mui/material/Pagination";
 import { ReactNode, useEffect, useState } from "react";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { SelectSortButton } from "@/features/recipe";
 
 export const Recipes = ({
   count,
@@ -14,14 +14,16 @@ export const Recipes = ({
   isError,
   onOpenFilterModal,
   isLoading,
-  onOpenSortModal,
+  onChangeLabel,
+  label,
   currentPage,
 }: {
   onChangePage: (_: any, page: number) => void;
   count: number;
   onChangeInputValue: (e: any) => void;
-  onOpenFilterModal: () => void;
-  onOpenSortModal: () => void;
+  onOpenFilterModal?: () => void;
+  onChangeLabel: (e: SelectChangeEvent<string>) => void;
+  label: string;
   inputValue: string;
   width: "w-1/2" | "w-full";
   isError: boolean;
@@ -31,10 +33,10 @@ export const Recipes = ({
   currentPage: number;
 }) => {
   return (
-    <div className={`${width} mx-auto mb-12`}>
-      <div className="mb-2 flex items-center gap-5 justify-center">
+    <div className={`lg:w-1/2 min[320px]:w-full mx-auto mb-12`}>
+      <div className="mb-2 flex items-center flex-wrap gap-5 justify-center">
         <input
-          className="border-b-2 w-1/3  outline-none"
+          className="border-b-2 outline-none"
           type="text"
           placeholder="search..."
           onChange={onChangeInputValue}
@@ -43,10 +45,7 @@ export const Recipes = ({
         <button onClick={onOpenFilterModal} className="border-2 py-2 px-5 ">
           фильтр
         </button>
-
-        <button className="border-2 py-2 px-5" onClick={onOpenSortModal}>
-          сорт
-        </button>
+        <SelectSortButton value={label} onChangeLabel={onChangeLabel} />
       </div>
       <ul className="mb-2">
         {isSuccess && children}

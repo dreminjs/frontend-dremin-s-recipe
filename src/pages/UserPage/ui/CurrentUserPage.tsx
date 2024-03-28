@@ -1,21 +1,21 @@
 import { CurrentUserInfo } from "@/features/user";
-import {
-  useGetCurrentUserInfoQuery,
-  useGetOwnRecipesQuery,
-} from "../api/profileApi";
-import { useState } from "react";
+import { useGetCurrentUserInfoQuery } from "../api/profileApi";
+
+import { UsersOwnRecipeTabs } from "@/widgets/Recipe";
+import { useEffect } from "react";
 
 export const CurrentUserProfile = () => {
-  const [page, setPage] = useState(1);
-
   const {
     data: userInfo,
     isLoading: userInfoIsLoading,
     isSuccess: userInfoIsSuccess,
     isError: userInfoIsError,
+    refetch: userInfoRefetch,
   } = useGetCurrentUserInfoQuery("");
 
-  const {} = useGetOwnRecipesQuery({ page });
+  useEffect(() => {
+    userInfoRefetch();
+  }, []);
 
   return (
     <>
@@ -27,6 +27,7 @@ export const CurrentUserProfile = () => {
         isLoading={userInfoIsLoading}
         isSuccess={userInfoIsSuccess}
       />
+      <UsersOwnRecipeTabs />
     </>
   );
 };

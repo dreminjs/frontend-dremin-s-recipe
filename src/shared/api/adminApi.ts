@@ -1,4 +1,4 @@
-import { baseApi } from "@/shared";
+import { baseApi } from "./baseApi";
 import build from "next/dist/build";
 
 const adminApi = baseApi.injectEndpoints({
@@ -8,6 +8,18 @@ const adminApi = baseApi.injectEndpoints({
         url: "admin/types",
         body,
         method: "POST",
+      }),
+    }),
+    rejectRecipe: builder.mutation({
+      query: (id) => ({
+        url: `admin/rejectRecipe/${id}`,
+        method: "PATCH",
+      }),
+    }),
+    checkRecipe: builder.mutation({
+      query: (id) => ({
+        url: `admin/checkRecipe/${id}`,
+        method: "PATCH",
       }),
     }),
     postHoliday: builder.mutation({
@@ -31,4 +43,6 @@ export const {
   usePostHolidayMutation,
   usePostNationalCuisineMutation,
   usePostTypeMutation,
+  useCheckRecipeMutation,
+  useRejectRecipeMutation,
 } = adminApi;

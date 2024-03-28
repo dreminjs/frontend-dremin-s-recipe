@@ -1,11 +1,8 @@
 import * as React from "react";
-import Pagination from "@mui/material/Pagination";
-import { Recipes } from "@/entities/Recipes";
+import { Recipes } from "@/widgets/Recipe";
 import { useState } from "react";
-import Image from "next/image";
-import { useGetRecipesQuery } from "..";
-import Link from "next/link";
-import { RecipeCharacteristicsModal, RecipeSortModal } from "@/widgets/Recipe";
+
+import { RecipeCharacteristicsModal } from "@/widgets/Characteristics";
 import {
   addHolidayForFilter,
   addNationalCuisineForFilter,
@@ -15,16 +12,19 @@ import {
   useGetHolidaysQuery,
   useGetNationalCuisinesQuery,
   useGetTypesQuery,
+  useGetRecipesQuery,
 } from "@/shared";
-export { useGetRecipesQuery } from "../api/recipesApi";
+import { RecipeItem } from "@/entities/Recipes";
+import { SelectChangeEvent } from "@mui/material";
+import { useDebounce } from "@uidotdev/usehooks";
 export const RecipesPage = () => {
   const [inputValue, setInputValue] = useState("");
+
+  const inputValueDebounced = useDebounce(inputValue, 300);
 
   const [page, setPage] = useState(1);
 
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
-
-  const [isSortModalVisible, setIsSortModalVisible] = useState(false);
 
   const characteristicsSearchParams = new URLSearchParams("");
 
@@ -46,12 +46,6 @@ export const RecipesPage = () => {
 
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, isError, isSuccess } = useGetRecipesQuery({
-    page,
-    search: inputValue,
-    searchParams: characteristicsSearchParams.toString(),
-  });
-
   const handleChangePage = (_: any, page: number) => {
     setPage(page);
   };
@@ -67,14 +61,6 @@ export const RecipesPage = () => {
 
   const handleCloseFilterModal = () => {
     setIsFilterModalVisible(false);
-  };
-
-  const handleOpenSortModal = () => {
-    setIsSortModalVisible(true);
-  };
-
-  const handleCloseSortModal = () => {
-    setIsSortModalVisible(false);
   };
 
   const handleAddType = (e: any) => {
@@ -96,6 +82,22 @@ export const RecipesPage = () => {
     );
   };
 
+  const [label, setTab] = useState("none");
+
+  const handleChangeLabel = (e: SelectChangeEvent<string>) =>
+    setTab(e.target.value);
+
+  const { data, isLoading, isError, isSuccess, refetch } = useGetRecipesQuery({
+    page,
+    search: inputValueDebounced,
+    searchParams: characteristicsSearchParams.toString(),
+    orderBy: label,
+    isChecked: true,
+  });
+  React.useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <>
       <RecipeCharacteristicsModal
@@ -105,16 +107,14 @@ export const RecipesPage = () => {
         isOpen={isFilterModalVisible}
         onCloseModal={handleCloseFilterModal}
       />
-      <RecipeSortModal
-        onCloseModal={handleCloseSortModal}
-        isOpen={isSortModalVisible}
-      />
+
       <div className="min-h-screen flex flex-col items-center">
         <Recipes
           width="w-1/2"
-          onOpenSortModal={handleOpenSortModal}
+          label={label}
           onChangeInputValue={handleChangeInputValue}
           onChangePage={handleChangePage}
+          onChangeLabel={handleChangeLabel}
           onOpenFilterModal={handleOpenFilterModal}
           count={data?.count}
           currentPage={page}
@@ -127,27 +127,15 @@ export const RecipesPage = () => {
             <li className="text-center">пусто!</li>
           )}
           {data?.recipes.map((el: any, idx: number) => (
-            <li className="mb-5 border-2 p-2 w-full" key={idx}>
-              <Link
-                className="flex items-center gap-2"
-                href={`recipes/${el.id}`}
-              >
-                <Image
-                  height={200}
-                  width={150}
-                  className="object-cover h-48 w-52"
-                  src={`http://localhost:3000/${el.img}`}
-                  alt="alt"
-                />
-                <div>
-                  <p className="text-xl">{el.title}</p>
-                  <p className="mb-2">{el.description.substring(0, 100)}</p>
-                  <Link href={`profile/el.authorId`}>
-                    Автор : {el.author.username}
-                  </Link>
-                </div>
-              </Link>
-            </li>
+            <RecipeItem
+              title={el.title}
+              recipeId={el.id}
+              authorId={el.authorId}
+              username={el?.author?.username}
+              description={el.description}
+              key={idx}
+              imgName={el.img}
+            />
           ))}
         </Recipes>
       </div>

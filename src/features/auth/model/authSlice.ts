@@ -3,11 +3,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface initialState {
   isAuth: boolean;
   isAdmin: boolean;
+  isActivated: boolean;
 }
 
 const initialState: initialState = {
   isAuth: false,
   isAdmin: false,
+  isActivated: false,
 };
 
 export const authSlice = createSlice({
@@ -20,7 +22,10 @@ export const authSlice = createSlice({
     setAdmin: (state, actions: PayloadAction<boolean>) => {
       state.isAdmin = actions.payload;
     },
+    setActivate: (state, actions: PayloadAction<boolean>) => {
+      state.isActivated = actions.payload;
+    },
   },
 });
 
-export const { setAuth, setAdmin } = authSlice.actions;
+export const { setAuth, setAdmin, setActivate } = authSlice.actions;

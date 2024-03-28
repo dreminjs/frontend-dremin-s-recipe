@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import TabPanel from "@mui/lab/TabPanel";
 import { useState } from "react";
 import { AddItemForm } from "@/shared";
-import { RecipeComponentsList } from "@/entities/recipeComponents/ui/RecipeComponentsList";
+import { ChoosedRecipeComponentItem } from "@/entities/recipeComponents/ui/ChoosedRecipeComponentItem";
 
 export const RecipeComponentTab = ({
   tabNumber,
@@ -39,22 +39,34 @@ export const RecipeComponentTab = ({
             borderColor: "divider",
           }}
         >
-          <TabList onChange={handleChangeTab} aria-label="lab API tabs example">
+          <TabList
+            variant="scrollable"
+            scrollButtons="auto"
+            onChange={handleChangeTab}
+            aria-label="lab API tabs example"
+          >
             <Tab label="добавить компонент" value="1" />
             <Tab label="просмотреть все компоненты" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1">
+        <TabPanel className="w-full" value="1">
           <AddItemForm handleAddItem={addComponent} maxLength={30} />
         </TabPanel>
         <TabPanel value="2">
-          <RecipeComponentsList
-            onRemoveComponent={onRemoveComponent}
-            onHideEditInput={onHideEditInput}
-            onChangeComponentInputValue={onChangeComponentInputValue}
-            onShowEditInput={onShowComponentInput}
-            recipeComponents={recipeComponents}
-          />
+          <ul className="text-center">
+            {recipeComponents.map((el) => (
+              <ChoosedRecipeComponentItem
+                key={el.id}
+                onShowEditInput={onShowComponentInput}
+                onChangeComponentInputValue={onChangeComponentInputValue}
+                onHideEditInput={onHideEditInput}
+                onRemoveComponent={onRemoveComponent}
+                isVisible={el.isVisible}
+                name={el.name}
+                id={el.id}
+              />
+            ))}
+          </ul>
         </TabPanel>
       </TabContext>
     </TabPanel>

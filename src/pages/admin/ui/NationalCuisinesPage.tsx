@@ -2,7 +2,7 @@ import { EditCharacteristicModal } from "@/features/characteristics";
 import {
   usePostNationalCuisineMutation,
   usePostTypeMutation,
-} from "../api/adminApi";
+} from "../../../shared/api/adminApi";
 import {
   MessageModal,
   useEditNationalCuisineMutation,
@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 
 import {
-  CharacteristicsItem,
+  CharacteristicsFilterItem,
   CharacteristicsList,
 } from "@/entities/characteristics";
 
@@ -127,7 +127,7 @@ export const NationalCuisinesPage = () => {
         isSuccess={nationalCuisinesIsSuccess}
       >
         {nationalCuisinesData?.characteristics.map((el: any) => (
-          <CharacteristicsItem
+          <CharacteristicsFilterItem
             type="ADMIN_VERSION"
             name={el.name}
             key={el.id}

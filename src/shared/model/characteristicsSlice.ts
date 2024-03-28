@@ -67,6 +67,15 @@ export const characteristicsSlice = createSlice({
       state.nationalCuisines = [];
       state.types = [];
     },
+    setHoliday: (state, { payload }) => {
+      state.holidays = [payload];
+    },
+    setNationalCuisine: (state, { payload }) => {
+      state.nationalCuisines = [payload];
+    },
+    setType: (state, { payload }) => {
+      state.types = [payload];
+    },
   },
 });
 

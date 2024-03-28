@@ -11,6 +11,6 @@ export {
   useLogoutMutation,
 } from "./api/authApi";
 
-export { setAuth, setAdmin } from "./model/authSlice";
+export { setAuth, setAdmin, setActivate } from "./model/authSlice";
 
 export { SignInForm } from "./ui/SignInForm";

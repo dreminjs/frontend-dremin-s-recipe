@@ -1,3 +1,3 @@
 export { RecipesPage } from "./ui/RecipesPage";
 
-export { useGetRecipesQuery } from "./api/recipesApi";
+export { useGetRecipesQuery } from "../../shared/api/recipesApi";

@@ -3,7 +3,7 @@ import Link from "next/link";
 export const AdminPage = () => {
   return (
     <>
-      <ul className="flex justify-center gap-14 border-2 py-5">
+      <ul className="flex justify-center flex-wrap gap-14 border-2 py-5 mb-5">
         <li>
           <Link className="text-xl underline" href={"admin/types"}>
             типы
@@ -20,6 +20,13 @@ export const AdminPage = () => {
           </Link>
         </li>
       </ul>
+
+      <Link
+        className="text-xl underline block text-center"
+        href={"admin/recipes"}
+      >
+        управление рецептами
+      </Link>
     </>
   );
 };

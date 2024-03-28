@@ -10,20 +10,19 @@ const userApi = baseApi.injectEndpoints({
     getUserInfo: builder.query({
       query: (id) => ({
         url: `user/${id}`,
+        credentials: "include",
       }),
     }),
-    getOwnRecipes: builder.query({
-      query: (body) => ({
-        url: `/ownRecipes?page=${body.page}${
-          body.search && `&search=${body.search}`
-        }&${body.searchParams && body.searchParams}`,
+    checkOwnerProfile: builder.query({
+      query: (id) => ({
+        url: `user/checkOwnerProfile/${id}`,
       }),
     }),
   }),
 });
 
 export const {
-  useGetOwnRecipesQuery,
   useGetCurrentUserInfoQuery,
   useGetUserInfoQuery,
+  useCheckOwnerProfileQuery,
 } = userApi;

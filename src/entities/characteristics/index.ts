@@ -1,5 +1,7 @@
 export { CharacteristicsList } from "./ui/CharacteristicsList";
 
-export { CharacteristicsItem } from "./ui/CharacteristicItem";
+export { CharacteristicsFilterItem } from "./ui/CharacteristicFilterItem";
 
 export { ChoosedCharacteristicsItem } from "./ui/ChoosedCharacteristicItem";
+
+export { CharacteristicItem } from "./ui/CharacteristicItem";

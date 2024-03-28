@@ -1,5 +1,5 @@
 import { EditCharacteristicModal } from "@/features/characteristics";
-import { usePostHolidayMutation } from "../api/adminApi";
+import { usePostHolidayMutation } from "../../../shared/api/adminApi";
 import {
   MessageModal,
   useEditHolidayMutation,
@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 
 import {
-  CharacteristicsItem,
+  CharacteristicsFilterItem,
   CharacteristicsList,
 } from "@/entities/characteristics";
 
@@ -124,7 +124,7 @@ export const HolidaysPage = () => {
         isSuccess={holidaysIsSuccess}
       >
         {holidaysData?.characteristics.map((el: any) => (
-          <CharacteristicsItem
+          <CharacteristicsFilterItem
             type="ADMIN_VERSION"
             name={el.name}
             key={el.id}

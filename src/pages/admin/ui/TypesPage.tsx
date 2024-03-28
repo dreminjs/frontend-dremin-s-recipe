@@ -1,5 +1,5 @@
 import { EditCharacteristicModal } from "@/features/characteristics";
-import { usePostTypeMutation } from "../api/adminApi";
+import { usePostTypeMutation } from "../../../shared/api/adminApi";
 import {
   AddItemForm,
   MessageModal,
@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { clear } from "console";
 import {
-  CharacteristicsItem,
+  CharacteristicsFilterItem,
   CharacteristicsList,
 } from "@/entities/characteristics";
 
@@ -124,7 +124,7 @@ export const TypesPage = () => {
         isSuccess={typesIsSuccess}
       >
         {typesData?.characteristics.map((el: any) => (
-          <CharacteristicsItem
+          <CharacteristicsFilterItem
             type="ADMIN_VERSION"
             name={el.name}
             key={el.id}

@@ -15,7 +15,7 @@ export const ModalLayout = ({
   return (
     <Modal onClose={onCloseModal} open={isOpen}>
       <Box
-        className={`bg-white ${(width && width) || "w-1/2"} mx-auto my-32 p-5`}
+        className={`bg-white min-[320px]:w-11/12 min-[700px]:w-1/2 mx-auto my-32 p-5`}
       >
         {children}
       </Box>

@@ -21,25 +21,23 @@ export const CharacteristicsList = ({
 }) => {
   return (
     <div>
-      {typeof count === "number" && (
-        <input
-          type="text"
-          onChange={onChangeInputValue}
-          className="mx-auto w-1/3 block mb-5 outline-none border-b-2"
-          placeholder="поиск типа"
-        />
-      )}
+      <input
+        type="text"
+        onChange={onChangeInputValue}
+        className="mx-auto max-[340px]:w-9/12 min-[1300px]:w-1/3 block mb-5 outline-none border-b-2"
+        placeholder="поиск типа"
+      />
+
       <ul className="text-center h-[250px]">
-        {typeof count === "number" && count === 0 && <p>Пусто!</p>}
+        {count === 0 && <p>Пусто!</p>}
         {children}
         {isLoading && <li>Loading...</li>}
         {isError && <li>Error!</li>}
       </ul>
-      {typeof count === "number" && (
-        <div className="flex justify-center mt-12">
-          <Pagination count={count} onChange={onChangePage} />
-        </div>
-      )}
+
+      <div className="flex justify-center mt-12">
+        <Pagination count={count} onChange={onChangePage} />
+      </div>
     </div>
   );
 };

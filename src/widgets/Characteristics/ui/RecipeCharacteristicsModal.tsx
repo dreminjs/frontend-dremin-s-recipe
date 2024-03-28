@@ -34,7 +34,12 @@ export const RecipeCharacteristicsModal = ({
             borderColor: "divider",
           }}
         >
-          <TabList onChange={handleChangeTab} aria-label="lab API tabs example">
+          <TabList
+            variant="scrollable"
+            scrollButtons="auto"
+            onChange={handleChangeTab}
+            aria-label="lab API tabs example"
+          >
             <Tab label="характеристики" value="1" />
             <Tab label="выбранные харк-стики" value="2" />
           </TabList>

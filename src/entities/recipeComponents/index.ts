@@ -1,1 +1,1 @@
-export { RecipeComponentsList } from "./ui/RecipeComponentsList";
+export { RecipeComponentItem } from "./ui/RecipeComponentItem";

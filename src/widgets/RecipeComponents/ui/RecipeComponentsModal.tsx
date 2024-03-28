@@ -15,7 +15,7 @@ import {
   removeStep,
   showIngredientInput,
   showStepInput,
-} from "../model/recipeComponentsSlice";
+} from "../../Recipe/model/recipeComponentsSlice";
 export const RecipeComponentsModal = ({
   isOpen,
   onCloseModal,
@@ -90,6 +90,8 @@ export const RecipeComponentsModal = ({
             <TabList
               onChange={handleChangeTab}
               aria-label="lab API tabs example"
+              variant="scrollable"
+              scrollButtons="auto"
             >
               <Tab label="Ингредиенты" value="1" />
               <Tab label="Шаги" value="2" />

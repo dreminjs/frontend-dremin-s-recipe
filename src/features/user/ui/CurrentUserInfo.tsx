@@ -15,8 +15,6 @@ export const CurrentUserInfo = ({
   isError: boolean;
   isSuccess: boolean;
 }) => {
-  console.log("Account status ", isActivated);
-
   return (
     <div>
       {isSuccess && (
