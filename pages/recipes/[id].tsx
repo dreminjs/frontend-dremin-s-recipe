@@ -1,8 +1,5 @@
 import { RecipePage } from "@/pages/RecipePage";
 import { useRouter } from "next/router";
-
-// const router = useRouter();
-
 export async function getStaticPaths() {
   const response = await fetch("http://localhost:3000/recipes");
 
@@ -33,6 +30,7 @@ const Index = ({ recipe }: any) => {
 
   return (
     <RecipePage
+      countOfLikes={recipe.countOfLikes}
       description={recipe.description}
       imgName={recipe.img}
       ingredients={recipe.ingredients}

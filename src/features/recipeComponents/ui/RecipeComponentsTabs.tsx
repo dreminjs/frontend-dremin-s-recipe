@@ -35,7 +35,12 @@ export const RecipeComponentsTabs = ({
           borderColor: "divider",
         }}
       >
-        <TabList onChange={handleChangeTab} aria-label="lab API tabs example">
+        <TabList
+          variant="scrollable"
+          scrollButtons="auto"
+          onChange={handleChangeTab}
+          aria-label="lab API tabs example"
+        >
           <Tab label="Ингредиенты" value="1" />
           <Tab label="Шаги" value="2" />
         </TabList>

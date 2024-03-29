@@ -1,4 +1,4 @@
-import { CharacteristicsTabs } from "@/features/characteristics";
+import { RecipeComponentsTabs } from "@/features/recipeComponents";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -6,7 +6,7 @@ import {
   useDislikeRecipeMutation,
   useLikeRecipeMutation,
 } from "../api/gradeRecipeApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "@/shared";
 
 export const RecipePage = ({
@@ -21,6 +21,7 @@ export const RecipePage = ({
   authorName,
   imgName,
   recipeId,
+  countOfLikes,
 }: {
   title: string;
   description: string;
@@ -33,23 +34,42 @@ export const RecipePage = ({
   authorName: string;
   imgName: string;
   recipeId: string | string[] | undefined;
+  countOfLikes: number;
 }) => {
+  const [likes, setLikes] = useState(0);
+
   const [
     sendLike,
-    { isLoading: sendingLikeIsLoading, isError: sendingLikeIsError },
+    {
+      isLoading: sendingLikeIsLoading,
+      isSuccess: sendingLikeIsSuccess,
+      isError: sendingLikeIsError,
+      data: sendingLikeData,
+    },
   ] = useLikeRecipeMutation();
-  const [sendDislike, { isLoading: sendingDislikeIsLoading }] =
-    useDislikeRecipeMutation();
+  const [
+    sendDislike,
+    {
+      isLoading: sendingDislikeIsLoading,
+      isSuccess: sendingDislikeIsSuccess,
+      data: sendingDislikeData,
+    },
+  ] = useDislikeRecipeMutation();
 
   const {
     data: checkLikeData,
     isLoading: checkLikeIsLoading,
     isSuccess: checkLikeIsSuccess,
+
     refetch: refrechCheckLike,
   } = useCheckLikeQuery(recipeId);
 
   useEffect(() => {
     refrechCheckLike();
+
+    if (checkLikeIsSuccess) {
+      setLikes(checkLikeData.countLikes);
+    }
   }, [sendingDislikeIsLoading, sendingLikeIsLoading]);
 
   const { isAuth } = useAppSelector((state) => state.authSlice);
@@ -74,33 +94,39 @@ export const RecipePage = ({
           <p>тип : {typeName}</p>
         </li>
       </ul>
-      <div className="flex justify-between">
-        <p className="text-xl w-1/2">{description}</p>
+      <div className="flex justify-between flex-wrap">
+        <p className="text-xl min-[320px]:w-8/12 min-[600px]:w-1/2 mb-2">
+          {description}dsa d ad sad sad sad as
+        </p>
         <Image
           width={300}
           height={100}
+          className="min-[320px]:w-full min-[880px]:w-1/2 h-full object-cover mb-5"
           src={`http://localhost:3000/${imgName}`}
           alt={"recipe photo"}
         />
       </div>
 
-      <CharacteristicsTabs ingredients={ingredients} steps={steps} />
+      <RecipeComponentsTabs ingredients={ingredients} steps={steps} />
 
-      {isAuth && !checkLikeData?.isLiked ? (
-        <button
-          className="border-2 px-5 py-2"
-          onClick={() => sendLike(recipeId)}
-        >
-          Добавить в понравевшиеся
-        </button>
-      ) : (
-        <button
-          className="border-2 px-5 py-2"
-          onClick={() => sendDislike(recipeId)}
-        >
-          убрать из понравевшиеся
-        </button>
-      )}
+      <div className="flex gap-5 items-center mb-5">
+        {isAuth && !checkLikeData?.isLiked ? (
+          <button
+            className="border-2 px-5 py-2"
+            onClick={() => sendLike(recipeId)}
+          >
+            Добавить в понравевшиеся
+          </button>
+        ) : (
+          <button
+            className="border-2 px-5 py-2"
+            onClick={() => sendDislike(recipeId)}
+          >
+            убрать из понравевшиеся
+          </button>
+        )}
+        <p>Кол-во лайков: {checkLikeData?.countLikes}</p>
+      </div>
     </>
   );
 };

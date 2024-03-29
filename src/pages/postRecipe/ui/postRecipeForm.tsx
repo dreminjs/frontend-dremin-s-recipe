@@ -286,7 +286,7 @@ export const PostRecipeForm = () => {
           {photo && (
             <Image
               width={550}
-              className="h-[350px] w-[550px] mb-5"
+              className="w-full h-full object-cover mb-5"
               height={250}
               alt="photo"
               src={photo}
