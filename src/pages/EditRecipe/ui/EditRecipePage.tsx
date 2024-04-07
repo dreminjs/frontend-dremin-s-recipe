@@ -75,15 +75,15 @@ export const EditRecipePage = ({
     photo: yup
       .mixed()
       .notRequired()
-      .test("file", "Пожалуйта добавте файл", (value: any) => {
-        return value[0];
-      })
-      .test("fileSize", "Файл слишком большой", (value: any) => {
-        return value[0] && value[0].size <= 5242880; // Максимальный размер файла 5MB
-      })
-      .test("fileType", "Неверный формат файла", (value: any) => {
-        return value && ["image/jpeg", "image/png"].includes(value[0]?.type); // Разрешенные типы файлов: JPEG и PNG
+      .test("fileSize", "File is too large", (value: any) => {
+        return value || (value[0] && value[0].size <= 5242880); // Maximum file size 5MB
       }),
+    // .test("fileType", "Invalid file format", (value: any) => {
+    //   return (
+    //     !value ||
+    //     (value && ["image/jpeg", "image/png"].includes(value[0]?.type))
+    //   ); // Allowed file types: JPEG and PNG
+    // }),
   });
 
   const { steps, ingredients } = useAppSelector(
@@ -192,12 +192,15 @@ export const EditRecipePage = ({
 
   useEffect(() => {
     if (editingRecipeIsSuccess) {
-      refetchRecipeData();
+      const timeoutId = setTimeout(() => {
+        location.reload();
+      }, 3000);
+      return () => clearTimeout(timeoutId);
     }
   }, [editingRecipeIsSuccess]);
 
   useEffect(() => {
-    if (recipeIsSuccess || editingRecipeIsSuccess) {
+    if (recipeIsSuccess) {
       dispatch(setIngredients(recipeData.ingredients));
       dispatch(setSteps(recipeData.steps));
       dispatch(
@@ -216,7 +219,7 @@ export const EditRecipePage = ({
         })
       );
     }
-  }, [recipeIsSuccess, editingRecipeIsSuccess]);
+  }, [recipeIsSuccess]);
 
   useEffect(() => {
     if (

@@ -66,7 +66,7 @@ export const recipeComponentsSlice = createSlice({
       state.ingredients[componentIdx].name = payload.name;
     },
     showStepInput: (state, { payload }) => {
-      const componentIdx = state.steps.findIndex((el) => el.id === payload);
+      const componentIdx = state.steps.findIndex((el) => el.id == payload);
 
       state.steps[componentIdx].isVisible = true;
     },
